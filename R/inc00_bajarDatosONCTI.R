@@ -3,6 +3,10 @@ require(rvest)
 
 data.dir <- "../data/PEII"
 
+## registro de acreditados, anteriormente disponible en
+## http://www.oncti.gob.ve/
+## actualmente parece que no están disponibles las tablas originales
+
 PEII <- data.frame(id=c(120,115,110,108,100,109,102,111,117,118,99,113,116,98,103,106,121,101,104,105,97,112,119,107,114),
                    estado=c("Yaracuy","Portuguesa","Lara","Falcon",
                        "Apure","Guarico",
