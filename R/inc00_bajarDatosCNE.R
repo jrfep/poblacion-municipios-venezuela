@@ -1,6 +1,6 @@
 ##R --vanilla
 require(ROpenOffice)
-
+require(gdata)
 ## Descargar registro electoral y centros de votación (2012)
 ##http://www.cne.gov.ve/web/registro_electoral_descarga/abril2012/nacional.php
 
@@ -32,12 +32,13 @@ Z <- merge(merge(z[[1]],z[[3]],by="edo"),z[[2]],by=c("edo","mun"))
 x$estado <- y$cod_estado[match(x$cod_centro,y$cod_centro)]
 
 ## Reformatear información de apellidos en casos en que está desordenada la información original
-x$a1 <- sapply(x$primer_apellido,function(x) strsplit(x," ")[[1]][1])
-x$a2 <- sapply(x$primer_apellido,function(x) strsplit(x," ")[[1]][2])
-x$a2[!(x$segundo_apellido %in% "")] <- x$segundo_apellido[!(x$segundo_apellido %in% "")]
+x$a0 <- paste(trim(x$primer_apellido),trim(x$segundo_apellido),sep=" ")
+
+x$a1 <- sapply(x$a0,function(x) trim(strsplit(x," ")[[1]][1]))
+x$a2 <- sapply(x$a0,function(x) trim(strsplit(x," ")[[1]][2]))
 
 ## vectores de apellidos y estados
-apellidos <- gsub("^DE ","",c(x$a1,x$a2))
+apellidos <- gsub("^DE ","",trim(c(x$a1,x$a2)))
 estados <- z[[1]]$estado[match(c(x$estado,x$estado),z[[1]]$edo)]
 
 ## descartar datos de embajadas, apellido abreviados, vacíos o incompletos
@@ -47,4 +48,8 @@ apellidos <- apellidos[!ss]
 estados <- estados[!ss]
 
 mtz.ap.vzla <- table(apellidos,as.character(estados))
+
+##grep("CAMACHO",rownames(mtz.ap.vzla),value=T)
+
 save(file=sprintf("%s/MatrizApellidosVenezuela.rda",Rdata.dir),mtz.ap.vzla)
+
