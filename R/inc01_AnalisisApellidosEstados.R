@@ -38,6 +38,9 @@ plot(h0,  which.plot = 2,xlab="Basado en la frequencia de apellidos por estado",
 
 rect.hclust(h0, k = 5, border = 2:6)
 
+
+
+
 Tabla.Zulia <- data.frame(n.Zulia=m0[,"ZULIA"],n.Vzla=rowSums(m0),
                           freq.Zulia=m1[,"ZULIA"],p.Zulia=m2["ZULIA",])
 Tabla.Zulia <- subset(Tabla.Zulia,n.Zulia>20000 & p.Zulia>.2)
@@ -45,3 +48,4 @@ Tabla.Zulia[order(Tabla.Zulia$p.Zulia),]
 
 ##https://rstudio-pubs-static.s3.amazonaws.com/1876_df0bf890dd54461f98719b461d987c3d.html
 ##http://www.sthda.com/english/wiki/print.php?id=237
+
