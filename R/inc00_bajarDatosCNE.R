@@ -50,6 +50,7 @@ apellidos <- apellidos[!ss]
 estados <- estados[!ss]
 
 mtz.ap.vzla <- table(apellidos,as.character(estados))
+mtz.ap.vzla <- mtz.ap.vzla[rowSums(mtz.ap.vzla)>1,]
 
 ##grep("CAMACH",rownames(mtz.ap.vzla),value=T)
 
