@@ -39,17 +39,19 @@ x$a2 <- sapply(x$a0,function(x) trim(strsplit(x," ")[[1]][2]))
 
 ## vectores de apellidos y estados
 apellidos <- gsub("^DE ","",trim(c(x$a1,x$a2)))
+apellidos <- gsub("0","O",trim(c(x$a1,x$a2)))
+
 estados <- z[[1]]$estado[match(c(x$estado,x$estado),z[[1]]$edo)]
 
 ## descartar datos de embajadas, apellido abreviados, vacíos o incompletos
-ss <- (nchar(apellidos) %in% 0:1) |(nchar(apellidos)==2 & grepl("\\.",apellidos)) | apellidos %in% "" | estados %in% "EMBAJADA" 
+ss <- (nchar(apellidos) %in% 0:1) |(nchar(apellidos)==2 & grepl("\\.",apellidos)) | apellidos %in% "" | grepl("[0-9]",apellidos) | estados %in% "EMBAJADA" 
 table(ss)
 apellidos <- apellidos[!ss]
 estados <- estados[!ss]
 
 mtz.ap.vzla <- table(apellidos,as.character(estados))
 
-##grep("CAMACHO",rownames(mtz.ap.vzla),value=T)
+##grep("CAMACH",rownames(mtz.ap.vzla),value=T)
 
 save(file=sprintf("%s/MatrizApellidosVenezuela.rda",Rdata.dir),mtz.ap.vzla)
 
